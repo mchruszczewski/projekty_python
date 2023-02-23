@@ -152,32 +152,4 @@ club_id_df['Squad']= club_id_df['Squad'].str.replace(" ", "-")
 club_id_df.loc[club_id_df['Squad']=='Chelsea','ID']= 'cff3d9bb'
     
     
-#step 4 creating function to search for players stats in a given season in a given team
-
-def stats_search(team, season):
-    team = team.replace(" ", "-")
-    try:
-        team_id = club_id_df[club_id_df['Squad'].str.contains(team)]['ID'].iloc[0]
-    except IndexError:
-        print(f"Error: team '{team}' not found in club_id_df.")
-        return None
-    if season == list_of_seasons[-1]:
-        df = pd.read_html(f'https://fbref.com/en/squads/{team_id}/{team}-Stats')
-    else:
-        df = pd.read_html(f'https://fbref.com/en/squads/{team_id}/{season}/{team}-Stats')
-    df = df[0]
-    df = df.drop(columns=['Unnamed: 33_level_0'])
-    list_columns = list(df.columns.levels[0])
-    columns_dict = {i: "General Info" for i in list_columns[-6:]}
-    df = df.rename(columns=columns_dict, level=0)
-    return df
-
-#step 5 creating function to search for a stats of a palayer from given team 
-                         #!!!stats_search needs to be executed first!!!
-                         
-def player_stats_search (player_name, df):
-    df= df[df['General Info']['Player'].str.contains(player_name)]
-    return df
-                         
-
 

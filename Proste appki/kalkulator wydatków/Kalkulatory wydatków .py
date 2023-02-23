@@ -3,15 +3,15 @@ import numpy as np
 import math
 from datetime import date
 
-path= '/Users/michalchruszczewski/Documents/kalkulator wydatków/input_spendings'
+path= '/Users/michalchruszczewski/Documents/kalkulator_wydatków/input_spendings'
 
 
 #Step 1: Defining inputs
 
-input_pko= pd.read_excel(path+'/history_20230209_143110.xls', sheet_name= 'Lista transakcji')
-input_ing= pd.read_excel(path+'/Lista_transakcji_nr_0153084637_090223.xlsx', skiprows= 19,  sheet_name='Lista_transakcji_nr_0153084637_' )
+input_pko= pd.read_excel(path+'/history_20230223_111504.xls', sheet_name= 'Lista transakcji')
+input_ing= pd.read_excel(path+'/Lista_transakcji_nr_0154205485_230223.xlsx', skiprows= 19,  sheet_name='Lista_transakcji_nr_0154205485_' )
 category_dict= {"sport":["fpinka", 'bez kontuzji','fitness','manpowergroup'], 
-                "zakupy spozywcze":['netto','kaufland','carrefour','biedronka','lidl','ntfy',"auchan"], 
+                "zakupy spozywcze":['netto','kaufland','carrefour','biedronka','lidl','ntfy',"auchan","El Gato","concept","stu"], 
                 "di bakery":["di bakery"], 
                 "zabka":["zabka"], 
                 "samochód":['santander'], 
@@ -20,10 +20,13 @@ category_dict= {"sport":["fpinka", 'bez kontuzji','fitness','manpowergroup'],
                 'allegro':['allegro'],
                 'podatki firma': ['urzad','zus','skarbowy','ifirma'],
                 "revolut":["revolut"], 
-                "jedzenie- dostawa":["uber","wolt","pyszne"],
+                "jedzenie- dostawa":["uber","wolt","pyszne","bunga"],
                 "bilety mpk":["urbancard"],
-                "zakupy ciuchów/kosmetyków":["fashion","zara","intim","calzedonia","adidas","reserved","triumph","rossmann"],
-                "podróże":["ryanair","booking","wizz","hotel"]
+                "zakupy ciuchów/kosmetyków/fryzjer":     
+                ["fashion","zara","intim","calzedonia","adidas",
+                "reserved","triumph","rossmann","babett"],
+                "podróże":["ryanair","booking","wizz","hotel"],
+                "pies":["zoo","maxi","psi bufet","weteryn"]
                 }
 #step 2: Data clearance
 
@@ -71,14 +74,14 @@ data_v2= data_v2.reset_index(drop=True)
 #step 5 calculating sum for each category + provisions
 
 
-category_split= data_v2.groupby(['Kategoria']).sum(['Kwota'])
+category_split= data_v2.groupby(['Kategoria'], as_index= False).sum(['Kwota'])
 category_split.loc[category_split['Kategoria'].str.contains('kredyty'), "Kwota"] += 1000
 category_split['%']= 0
 category_split['%']= category_split['Kwota']/category_split['Kwota'].sum()
 
 #step 6 write t oexcel
 
-with pd.ExcelWriter(f"/Users/michalchruszczewski/Documents/kalkulator wydatków/output_spendings/Output{date.today()}-v2.xlsx") as writer:
+with pd.ExcelWriter(f"/Users/michalchruszczewski/Documents/kalkulator_wydatków/output_spendings/Output{date.today()}.xlsx") as writer:
                       
                       data_v2.to_excel(writer, sheet_name="General")
                       category_split.to_excel(writer, sheet_name="Kategorie")
