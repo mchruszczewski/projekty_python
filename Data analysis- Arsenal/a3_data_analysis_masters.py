@@ -45,15 +45,14 @@ for i in seasons_dict:
     best_def_table.loc[len(best_def_table)]= best_def_team
 best_def_table= best_def_table.loc[:,['Rk','Squad','xGA/90','GA','season']]
 
-best_off_table= pd.DataFrame(columns=list(seasons_dict[list_of_seasons[-1]]['general_table'].columns))
+best_off_table= pd.DataFrame(columns=columns)
 for i in seasons_dict:
     best_off_team= seasons_dict[i]['general_table']
     best_off_team= best_off_team.sort_values(by=['xG/90','GF'],ascending= False).reset_index(drop=True)
     best_off_team= best_off_team.iloc[0]
+    best_off_team['season']=i
     best_off_table.loc[len(best_off_table)]= best_off_team
-best_off_table= best_off_table.loc[:,['Rk','Squad','xG/90','GF']]
+best_off_table= best_off_table.loc[:,['Rk','Squad','xG/90','GF', 'season']]
  
-
-
 
 
