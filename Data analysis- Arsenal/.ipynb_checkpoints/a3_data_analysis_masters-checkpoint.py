@@ -35,13 +35,11 @@ for i in champions_dict:
 
 # find the best dfensive teams in each season based on xGA and best offensive team based on xG and GF
 columns= list(seasons_dict[list_of_seasons[-1]]['general_table'].columns)
-columns.append('season')
 best_def_table= pd.DataFrame(columns=columns)
 for i in seasons_dict:
     best_def_team= seasons_dict[i]['general_table']
     best_def_team= best_def_team.sort_values(by=['xGA/90','GA']).reset_index(drop=True)
     best_def_team= best_def_team.iloc[0]
-    best_def_team['season']=i
     best_def_table.loc[len(best_def_table)]= best_def_team
 best_def_table= best_def_table.loc[:,['Rk','Squad','xGA/90','GA','season']]
 
@@ -50,9 +48,6 @@ for i in seasons_dict:
     best_off_team= seasons_dict[i]['general_table']
     best_off_team= best_off_team.sort_values(by=['xG/90','GF'],ascending= False).reset_index(drop=True)
     best_off_team= best_off_team.iloc[0]
-    best_off_team['season']=i
     best_off_table.loc[len(best_off_table)]= best_off_team
 best_off_table= best_off_table.loc[:,['Rk','Squad','xG/90','GF', 'season']]
  
-
-

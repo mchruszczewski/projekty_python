@@ -55,3 +55,7 @@ for i in seasons_dict:
                                                 /seasons_dict[i]['general_table']['MP'],2)
     seasons_dict[i]['general_table']['xGA/90']= round(seasons_dict[i]['general_table']['xGA']
                                                 /seasons_dict[i]['general_table']['MP'],2)
+#Adding column with season indicator
+
+for i in seasons_dict:
+    seasons_dict[i]['general_table']['season']= f'{i}'

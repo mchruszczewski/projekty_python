@@ -12,20 +12,22 @@ all_teams_def= pd.DataFrame()
 
 for i in seasons_dict:
     df= seasons_dict[i]['general_table']
-    df= df.loc[:,['Rk','Squad','xGA/90','GA']]
-    df["Seasons"]= i
+    df= df.loc[:,['Rk','Squad','xGA/90','GA','season']]
     all_teams_def= pd.concat([all_teams_def,df], axis=0)
     all_teams_def= all_teams_def.reset_index(drop= True)
 
-all_teams_def= all_teams_def.loc[all_teams_def['Seasons']!='2022-2023']
+all_teams_def_23= all_teams_def.loc[all_teams_def['season']=='2022-2023']
+all_teams_def= all_teams_def.loc[all_teams_def['season']!='2022-2023']
+
 
 all_teams_off= pd.DataFrame()
 
 for i in seasons_dict:
     df= seasons_dict[i]['general_table']
-    df= df.loc[:,['Rk','Squad','xG/90','GF']]
-    df["Seasons"]= i
+    df= df.loc[:,['Rk','Squad','xG/90','GF','season']]
     all_teams_off= pd.concat([all_teams_off,df], axis=0)
     all_teams_off= all_teams_off.reset_index(drop= True)
 
-all_teams_off= all_teams_off.loc[all_teams_off['Seasons']!='2022-2023']
+all_teams_off_23= all_teams_off.loc[all_teams_off['season']=='2022-2023']
+all_teams_off= all_teams_off.loc[all_teams_off['season']!='2022-2023']
+
